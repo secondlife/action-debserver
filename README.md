@@ -8,7 +8,7 @@ Incredibly basic debserver action which:
 
 There are several limitations to this action. Notabley, it requires
 **dpkg-scanpackages** and **python3** to be installed. These should be available
-with Github's Ubuntu runners, but may not be of self-hosted and non-linux hosts.
+with Github's Ubuntu runners, but may not be on self-hosted and non-linux hosts.
 
 ## Example
 
