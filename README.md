@@ -6,9 +6,9 @@ Incredibly basic debserver action which:
    package indexes
 2. Starts a simple HTTP server using `python -m http.server`
 
-There are several limitations to this action, notable: it requires
-dpkg-scanpackages and python3 to be installed. This is true of Github's
-ubuntu runners, but may not be of self-hosted and non-linux hosts.
+There are several limitations to this action. Notabley, it requires
+**dpkg-scanpackages** and **python3** to be installed. These should be available
+with Github's Ubuntu runners, but may not be of self-hosted and non-linux hosts.
 
 ## Example
 
