@@ -1,0 +1,33 @@
+name: Start debserver 
+description: Index a folder containing debian packages and run a debserver
+inputs:
+  port:
+    description: Server HTTP port 
+    default: 12321
+  path:
+    description: Path to folder with debian packages
+outputs:
+  port:
+    description: Port of HTTP server
+    value: ${{ steps.debserver.outputs.port }}
+  pid:
+    description: PID of HTTP server
+    value: ${{ steps.debserver.outputs.pid }}
+runs:
+  using: composite
+  steps:
+    - name: Index packages and start server
+      id: debserver 
+      shell: bash
+      env:
+        FOLDER: ${{ inputs.folder }}
+        PORT: ${{ inputs.port }}
+      run: |
+        set -e
+        cd "$FOLDER"
+        dpkg-scanpackages -m . > Packages
+        bzip2 Packages --force --keep
+        gzip Packages --force --keep
+        python3 -m http.server $PORT &
+        echo "pid=$?" >> $GITHUB_OUTPUT
+        echo "port=$PORT" >> $GITHUB_OUTPUT

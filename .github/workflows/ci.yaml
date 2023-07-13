@@ -1,0 +1,29 @@
+name: CI
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Create test package
+        uses: secondlife/action-nfpm@v1
+      - uses: ./
+        id: debserver
+        with:
+          path: dist
+      - name: Check output
+        env:
+          PORT: ${{ steps.debserver.outputs.port }}
+        run: |
+          fatal() {
+            echo "$@" > /dev/stderr
+            exit 1
+          }
+          test -f Packages || fatal "Missing Packages" 
+          test -f Packages.gz || fatal "Missing Packages.gz"
+          test -f Packages.bz2 || fatal "Missing Packages.bz2"
+          curl -sf http://localhost:$PORT/Packages || fatal "Unable to cURL http://localhost:$PORT/Packages"
