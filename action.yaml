@@ -1,5 +1,5 @@
-name: Start debserver 
-description: Index a folder containing debian packages and run a debserver
+name: Run debserver
+description: Index debian packages and run a local debserver.
 inputs:
   port:
     description: Server HTTP port 
