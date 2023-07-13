@@ -26,11 +26,15 @@ jobs:
       - uses: actions/checkout@v3
       - name: Build package 
         uses: secondlife/action-nfpm@v1
-      - uses: secondlife/action-debserver@v1 
+      # Scan packages and start a debserver listening on 0.0.0.0:12321
+      - uses: secondlife/action-debserver@v1
+        id: debserver
         with:
           path: dist
-      - uses: secondlife/action-build-docker@v1
+      - uses: docker/build-push-action@v4
         with:
-            image: secondlife/my-image
-            build-args: local_debian_repository_url=http://172.17.0.1:12321
+            tags: user/app:latest
+            push: true
+            # Pass deb server URL as build arg to image using docker's default network gateway (host)
+            build-args: LOCAL_DEB_SERVER_URL=http://172.17.0.1:${{ steps.debserver.outputs.port }}
 ```
