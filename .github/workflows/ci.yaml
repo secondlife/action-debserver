@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Create test package
-        uses: secondlife/action-nfpm@v1
+        uses: secondlife/action-nfpm@v2
       - uses: ./
         id: debserver
         with:
