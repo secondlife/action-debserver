@@ -23,9 +23,9 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Build package 
-        uses: secondlife/action-nfpm@v1
+        uses: secondlife/action-nfpm@v2
       # Scan packages and start a debserver listening on 0.0.0.0:12321
       - uses: secondlife/action-debserver@v1
         id: debserver
@@ -33,8 +33,8 @@ jobs:
           path: dist
       - uses: docker/build-push-action@v4
         with:
-            tags: user/app:latest
-            push: true
-            # Pass deb server URL as build arg to image using docker's default network gateway (host)
-            build-args: LOCAL_DEB_SERVER_URL=http://172.17.0.1:${{ steps.debserver.outputs.port }}
+          tags: user/app:latest
+          push: true
+          # Pass deb server URL as build arg to image using docker's default network gateway (host)
+          build-args: LOCAL_DEB_SERVER_URL=http://172.17.0.1:${{ steps.debserver.outputs.port }}
 ```
