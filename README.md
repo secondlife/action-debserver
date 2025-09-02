@@ -2,28 +2,30 @@
 
 Incredibly basic debserver action which:
 
-1. Scans a target directory for *.debs using `dpkg-scanpackages` to produce
+1. Scans a target directory for `*.deb`s using `dpkg-scanpackages` to produce
    package indexes
 2. Starts a simple HTTP server using `python -m http.server`
 
-There are several limitations to this action. Notabley, it requires
+There are several limitations to this action. Notably, it requires
 **dpkg-scanpackages** and **python3** to be installed. These should be available
-with Github's Ubuntu runners, but may not be on self-hosted and non-linux hosts.
+with GitHub's Ubuntu runners, but may not be on self-hosted and non-linux hosts.
 
 ## Example
 
 ```yaml
-name: CI
+name: Build
+
 on:
   pull_request:
   push:
     branches: [main]
 
 jobs:
-  test:
+  build:
+    name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Build package 
         uses: secondlife/action-nfpm@v2
       # Scan packages and start a debserver listening on 0.0.0.0:12321
@@ -31,7 +33,7 @@ jobs:
         id: debserver
         with:
           path: dist
-      - uses: docker/build-push-action@v4
+      - uses: docker/build-push-action@v6
         with:
           tags: user/app:latest
           push: true
