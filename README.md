@@ -25,15 +25,16 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
       - name: Build package 
         uses: secondlife/action-nfpm@v2
+
       # Scan packages and start a debserver listening on 0.0.0.0:12321
       - uses: secondlife/action-debserver@v1
         id: debserver
         with:
           path: dist
-      - uses: docker/build-push-action@v6
+
+      - uses: docker/build-push-action@v7
         with:
           tags: user/app:latest
           push: true
