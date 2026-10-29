@@ -23,7 +23,7 @@ jobs:
             echo "$@" > /dev/stderr
             exit 1
           }
-          test -f Packages || fatal "Missing Packages" 
-          test -f Packages.gz || fatal "Missing Packages.gz"
-          test -f Packages.bz2 || fatal "Missing Packages.bz2"
+          test -f dist/Packages || fatal "Missing dist/Packages"
+          test -f dist/Packages.gz || fatal "Missing dist/Packages.gz"
+          test -f dist/Packages.bz2 || fatal "Missing dist/Packages.bz2"
           curl -sf http://localhost:$PORT/Packages || fatal "Unable to cURL http://localhost:$PORT/Packages"

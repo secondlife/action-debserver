@@ -2,7 +2,7 @@ name: Run debserver
 description: Index debian packages and run a local debserver.
 inputs:
   port:
-    description: Server HTTP port 
+    description: Server HTTP port
     default: 12321
   path:
     description: Path to folder with debian packages
@@ -17,10 +17,10 @@ runs:
   using: composite
   steps:
     - name: Index packages and start server
-      id: debserver 
+      id: debserver
       shell: bash
       env:
-        FOLDER: ${{ inputs.folder }}
+        FOLDER: ${{ inputs.path }}
         PORT: ${{ inputs.port }}
       run: |
         set -e
@@ -29,5 +29,5 @@ runs:
         bzip2 Packages --force --keep
         gzip Packages --force --keep
         python3 -m http.server $PORT &
-        echo "pid=$?" >> $GITHUB_OUTPUT
+        echo "pid=$!" >> $GITHUB_OUTPUT
         echo "port=$PORT" >> $GITHUB_OUTPUT
